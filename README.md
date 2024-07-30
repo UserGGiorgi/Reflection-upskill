@@ -1,93 +1,120 @@
-# reflection-upskill
+# Reflection
+
+Beginner level tasks for practicing reflection.
+
+Estimated time to complete the task - 0.5h.
+
+The task requires .NET 8 SDK installed.
 
 
+## Task Description
 
-## Getting started
+Reflection in .NET is a mechanism that allows to analyze types and work with the objects that describe types and type members. Read the [Reflection](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection) article before starting the task.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+### 1. Getting the type name.
 
-## Add your files
+Implement the [GetTypeName](Reflection/ReflectionOperations.cs#L9) method, so it should return the type name of the `obj` argument.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+1. Get the type of the `obj` argument using the [GetType](https://learn.microsoft.com/en-us/dotnet/api/system.object.gettype) method:
 
+```cs
+public static string GetTypeName(object obj)
+{
+    Type type = obj.GetType();
+}
 ```
-cd existing_repo
-git remote add origin https://autocode.git.epam.com/dotnet-tasks/dotnet/net8/reflection-upskill.git
-git branch -M main
-git push -uf origin main
+
+2. Return the value of the [Name](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.name) property:
+
+```cs
+public static string GetTypeName(object obj)
+{
+    Type type = obj.GetType();
+    return type.Name;
+}
 ```
 
-## Integrate with your tools
 
-- [ ] [Set up project integrations](https://autocode.git.epam.com/dotnet-tasks/dotnet/net8/reflection-upskill/-/settings/integrations)
+### 2. Getting the full type name.
 
-## Collaborate with your team
+The [GetFullTypeName](Reflection/ReflectionOperations.cs#L15) is a generic method that is declared with the `T` type parameter. Implement the `GetFullTypeName` method, so it should return the type full name of the `T` type parameter.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+1. Use the [typeof operator](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast#typeof-operator) to obtain the type of the `T` parameter:
 
-## Test and Deploy
+```cs
+public static string GetFullTypeName<T>()
+{
+    Type type = typeof(T);
+}
+```
 
-Use the built-in continuous integration in GitLab.
+2. Return the value of the [FullName](https://learn.microsoft.com/en-us/dotnet/api/system.type.fullname) property:
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+```cs
+public static string GetFullTypeName<T>()
+{
+    Type type = typeof(T);
+    return type.FullName;
+}
+```
 
-***
+3. Add the [null-forgiving operator !](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-forgiving) to the return expression to suppress the [CS8603 nullable warning](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/nullable-warnings).
 
-# Editing this README
+```cs
+public static string GetFullTypeName<T>()
+{
+    Type type = typeof(T);
+    return type.FullName!;
+}
+```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
 
-## Suggestions for a good README
+### 3. Getting the assembly-qualified name of a type.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+Implement the [GetAssemblyQualifiedName](Reflection/ReflectionOperations.cs#L21) method, so it should return the [AssemblyQualifiedName](https://learn.microsoft.com/en-us/dotnet/api/system.type.assemblyqualifiedname) of the `T` type parameter.
 
-## Name
-Choose a self-explaining name for your project.
+### 4. Getting private fields of a type.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+Implement the [GetPrivateInstanceFields](Reflection/ReflectionOperations.cs#L27) method, so it should return the array with all private instance fields of the `obj` argument. Use the [GetFields](https://learn.microsoft.com/en-us/dotnet/api/system.type.getfields) method in the object type with the relevant `bindingAttr` argument.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### 5. Getting the public static fields of a type.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+Implement the [GetPublicStaticFields](Reflection/ReflectionOperations.cs#L33) method, so it should return the array with all private instance fields of the `obj` argument. Use the [GetFields](https://learn.microsoft.com/en-us/dotnet/api/system.type.getfields) method in the object type with the relevant `bindingAttr` argument.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### 6. Getting the Interface details of a type.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Implement the [GetInterfaceDataDetails](Reflection/ReflectionOperations.cs#L39) method, so it should return the array with interface details of the 'obj' argument. Use the [Type](https://learn.microsoft.com/en-us/dotnet/api/system.type.getinterfaces) method in the object type.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+### 7. Getting the Constructor details of a type.Verifying Constructors of the class and validating it's constructors names.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+Implement the [GetConstructorsDataDetails](Reflection/ReflectionOperations.cs#L45) method, so it should return the array with constructor details of the 'obj' argument. Use the [GetConstructors](https://learn.microsoft.com/en-us/dotnet/api/system.type.getconstructors) method in the object type.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
 
-## License
-For open source projects, say how it is licensed.
+### 8. Getting the Member details of a type. Verifying TypeMembers of the class and validating it's Member names.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Implement the [GetTypeMembersDataDetails](Reflection/ReflectionOperations.cs#L51) method, so it should return the array with member details of the 'obj' argument. Use the [GetMembers](https://learn.microsoft.com/en-us/dotnet/api/system.type.getmembers) method in the object type.
+
+
+### 9. Getting the Method details of a type.
+
+Implement the [GetMethodDataDetails](Reflection/ReflectionOperations.cs#L57) method, so it should return the array with method details of the 'obj' argument. Use the [GetMethods](https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethods) method in the object type.
+
+### 10. Getting the Properties details of a type.
+
+Implement the [GetPropertiesDataDetails](Reflection/ReflectionOperations.cs#L63) method, so it should return the array with properties details of the 'obj' argument. Use the [GetProperties](https://learn.microsoft.com/en-us/dotnet/api/system.type.getproperties) method in the object type.
+
+
+#### See also
+
+* C# Language Reference
+  * https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection
+  * https://learn.microsoft.com/en-us/dotnet/framework/reflection-and-codedom/viewing-type-information
+  * https://learn.microsoft.com/en-us/dotnet/standard/attributes/retrieving-information-stored-in-attributes
+  * https://learn.microsoft.com/en-us/dotnet/framework/reflection-and-codedom/reflection-and-generic-types
+  * https://learn.microsoft.com/en-us/dotnet/framework/reflection-and-codedom/dynamically-loading-and-using-types
+  * https://learn.microsoft.com/en-us/dotnet/framework/reflection-and-codedom/get-type-member-information
+  * https://learn.microsoft.com/en-us/dotnet/framework/reflection-and-codedom/reflection-for-windows-store-apps
