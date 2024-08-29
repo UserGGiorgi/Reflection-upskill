@@ -115,112 +115,90 @@ namespace Reflection.Tests
         [TestCaseSource(nameof(GetTypeNameData))]
         public void GetTypeName_ReturnsTypeName(object obj, string expected)
         {
-            // Act
             string actual = ReflectionOperations.GetTypeName(obj);
 
-            // Assert
             Assert.That(actual, Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(GetFullTypeNameData))]
         public void GetFullTypeName_ReturnsFullTypeName(Type type, string expected)
         {
-            // Arrange
             MethodInfo? methodInfo = typeof(ReflectionOperations).GetMethod(
                 nameof(ReflectionOperations.GetFullTypeName),
                 BindingFlags.Static | BindingFlags.Public);
             MethodInfo genericMethodInfo = methodInfo!.MakeGenericMethod(type);
 
-            // Act
             object? actual = genericMethodInfo.Invoke(null, null);
 
-            // Assert
             Assert.That(actual, Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(GetAssemblyQualifiedNameData))]
         public void GetAssemblyQualifiedName_ReturnsAssemblyQualifiedName(Type type, string expected)
         {
-            // Arrange
             MethodInfo? methodInfo = typeof(ReflectionOperations).GetMethod(
                 nameof(ReflectionOperations.GetAssemblyQualifiedName),
                 BindingFlags.Static | BindingFlags.Public);
             MethodInfo genericMethodInfo = methodInfo!.MakeGenericMethod(type);
 
-            // Act
             object? actual = genericMethodInfo.Invoke(null, null);
 
-            // Assert
             Assert.That(actual, Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(GetPrivateInstanceFieldsData))]
         public void GetPrivateInstanceFields(object obj, string[] expected)
         {
-            // Act
             string[] actual = ReflectionOperations.GetPrivateInstanceFields(obj);
 
-            // Assert
             Assert.That(actual, Is.EquivalentTo(expected));
         }
 
         [TestCaseSource(nameof(GetPublicStaticFieldsData))]
         public void GetPublicStaticFields(object obj, string[] expected)
         {
-            // Act
             string[] actual = ReflectionOperations.GetPublicStaticFields(obj);
 
-            // Assert
             Assert.That(actual, Is.EquivalentTo(expected));
         }
 
         [TestCaseSource(nameof(GetInterfaceData))]
         public void GetInterfaceDataDetails(object obj, string[] expected)
         {
-            // Act
             string?[] actual = ReflectionOperations.GetInterfaceDataDetails(obj);
 
-            // Assert
             Assert.That(actual, Is.EquivalentTo(expected));
         }
 
         [TestCaseSource(nameof(GetConstructorsData))]
         public void GetConstructorsDataDetails(object obj, string[] expected)
         {
-            // Act
             string?[] actual = ReflectionOperations.GetConstructorsDataDetails(obj);
 
-            // Assert
             Assert.That(actual, Is.EquivalentTo(expected));
         }
 
         [TestCaseSource(nameof(GetTypeMembersData))]
         public void GetTypeMembersDataDetails(object obj, string[] expected)
         {
-            // Act
             string?[] actual = ReflectionOperations.GetTypeMembersDataDetails(obj);
 
-            // Assert
             Assert.That(actual, Is.EquivalentTo(expected));
         }
 
         [TestCaseSource(nameof(GetMethodData))]
         public void GetMethodDataDetails(object obj, string[] expected)
         {
-            // Act
             string?[] actual = ReflectionOperations.GetMethodDataDetails(obj);
 
-            // Assert
             Assert.That(actual, Is.EquivalentTo(expected));
         }
 
         [TestCaseSource(nameof(GetPropertiesData))]
         public void GetPropertiesDataDetails(object obj, string[] expected)
         {
-            // Act
             string?[] actual = ReflectionOperations.GetPropertiesDataDetails(obj);
 
-            // Assert
             Assert.That(actual, Is.EquivalentTo(expected));
         }
     }
