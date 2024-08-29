@@ -2,57 +2,115 @@ using System.Reflection;
 
 [assembly: CLSCompliant(true)]
 
-namespace Reflection;
-
-public static class ReflectionOperations
+namespace Reflection
 {
-    public static string GetTypeName(object obj)
+    public static class ReflectionOperations
     {
-        throw new NotImplementedException();
-    }
+        public static string GetTypeName(object obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj), "Object cannot be null.");
+            }
 
-    public static string GetFullTypeName<T>()
-    {
-        throw new NotImplementedException();
-    }
+            Type type = obj.GetType();
+            return type.Name;
+        }
 
-    public static string GetAssemblyQualifiedName<T>()
-    {
-        throw new NotImplementedException();
-    }
+        public static string GetFullTypeName<T>()
+        {
+            Type type = typeof(T);
+            return type.FullName!;
+        }
 
-    public static string[] GetPrivateInstanceFields(object obj)
-    {
-        throw new NotImplementedException();
-    }
+        public static string GetAssemblyQualifiedName<T>()
+        {
+            Type type = typeof(T);
+            return type.AssemblyQualifiedName!;
+        }
 
-    public static string[] GetPublicStaticFields(object obj)
-    {
-        throw new NotImplementedException();
-    }
+        public static string[] GetPrivateInstanceFields(object obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj), "Object cannot be null.");
+            }
 
-    public static string?[] GetInterfaceDataDetails(object obj)
-    {
-        throw new NotImplementedException();
-    }
+            Type type = obj.GetType();
+            FieldInfo[] fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+            return fields.Select(f => f.Name).ToArray();
+        }
 
-    public static string?[] GetConstructorsDataDetails(object obj)
-    {
-        throw new NotImplementedException();
-    }
+        public static string[] GetPublicStaticFields(object obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj), "Object cannot be null.");
+            }
 
-    public static string?[] GetTypeMembersDataDetails(object obj)
-    {
-        throw new NotImplementedException();
-    }
+            Type type = obj.GetType();
+            FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Static);
+            return fields.Select(f => f.Name).ToArray();
+        }
 
-    public static string?[] GetMethodDataDetails(object obj)
-    {
-        throw new NotImplementedException();
-    }
+        public static string?[] GetInterfaceDataDetails(object obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj), "Object cannot be null.");
+            }
 
-    public static string?[] GetPropertiesDataDetails(object obj)
-    {
-        throw new NotImplementedException();
+            Type type = obj.GetType();
+            Type[] interfaces = type.GetInterfaces();
+            return interfaces.Select(i => i.FullName).ToArray();
+        }
+
+        public static string?[] GetConstructorsDataDetails(object obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj), "Object cannot be null.");
+            }
+
+            Type type = obj.GetType();
+            ConstructorInfo[] constructors = type.GetConstructors();
+            return constructors.Select(c => c.ToString()).ToArray();
+        }
+
+        public static string?[] GetTypeMembersDataDetails(object obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj), "Object cannot be null.");
+            }
+
+            Type type = obj.GetType();
+            MemberInfo[] members = type.GetMembers();
+            return members.Select(m => m.ToString()).ToArray();
+        }
+
+        public static string?[] GetMethodDataDetails(object obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj), "Object cannot be null.");
+            }
+
+            Type type = obj.GetType();
+            MethodInfo[] methods = type.GetMethods();
+            return methods.Select(m => m.ToString()).ToArray();
+        }
+
+        public static string?[] GetPropertiesDataDetails(object obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj), "Object cannot be null.");
+            }
+
+            Type type = obj.GetType();
+            PropertyInfo[] properties = type.GetProperties();
+            return properties.Select(p => p.ToString()).ToArray();
+        }
     }
 }
